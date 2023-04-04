@@ -10,7 +10,8 @@ import java.util.List;
 public class DbService {
     private static volatile DbService instance = null;
 
-    private static final Consolelogger logger = new Consolelogger();
+    private Consolelogger logger = Consolelogger.getInstance();
+    //private static final Consolelogger logger = new Consolelogger();
     private List<Cat> cats = new ArrayList<>();
     private List<Dog> dogs = new ArrayList<>();
 
@@ -46,7 +47,7 @@ public class DbService {
     }
 
     public List<Dog> getDogs() {
-        logger.debug("BdService.Get " + cats.size() +  dogs);
+        logger.debug("BdService.Get " + dogs.size() + dogs);
         return new ArrayList<>(dogs);
     }
 }

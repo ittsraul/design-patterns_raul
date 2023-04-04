@@ -8,7 +8,8 @@ import java.util.Scanner;
 
 public class PetApp {
 
-	private static final Consolelogger logger = new Consolelogger();
+	private Consolelogger logger = Consolelogger.getInstance();
+	//private static final Consolelogger logger = new Consolelogger();
 
     public static void main (String[] args) {
         ControllerFactory controllerFactory = new ControllerFactory();

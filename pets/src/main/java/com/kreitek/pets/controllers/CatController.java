@@ -9,8 +9,9 @@ import java.util.List;
 
 public class CatController implements Controller {
 
-    private static final Consolelogger logger = new Consolelogger();
-
+    //private static final Consolelogger logger = new Consolelogger();
+	private Consolelogger logger = Consolelogger.getInstance();
+	
     @Override
     public String executePut(String petName, String ownerName, String telephone) {
         logger.debug("CatController.executePut " + petName + "," + ownerName + "," + telephone);

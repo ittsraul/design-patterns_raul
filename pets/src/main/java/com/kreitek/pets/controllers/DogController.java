@@ -10,7 +10,8 @@ import java.util.List;
 
 public class DogController implements Controller {
 
-	private static final Consolelogger logger = new Consolelogger();
+	private Consolelogger logger = Consolelogger.getInstance();
+	//private static final Consolelogger logger = new Consolelogger();
 
     public String executePut(String petName, String ownerName, String telephone) {
         logger.debug("DogController.executePut " + petName + "," + ownerName + "," + telephone);
