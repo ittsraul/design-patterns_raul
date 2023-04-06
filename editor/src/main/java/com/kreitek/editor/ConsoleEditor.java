@@ -1,6 +1,8 @@
 package com.kreitek.editor;
 
 import com.kreitek.editor.commands.CommandFactory;
+import com.kreitek.editor.commands.*;
+import com.kreitek.editor.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,8 +18,10 @@ public class ConsoleEditor implements Editor {
     public static final String TEXT_CYAN = "\u001B[36m";
     public static final String TEXT_WHITE = "\u001B[37m";
 
-    private final CommandFactory commandFactory = new CommandFactory();
+    //Error por no tener constructor
+    private final CommandFactory MycommandFactory = new CommandFactory(documentLines);
     private ArrayList<String> documentLines = new ArrayList<String>();
+    Command previousCommand = null;
 
     @Override
     public void run() {
@@ -25,7 +29,21 @@ public class ConsoleEditor implements Editor {
         while (!exit) {
             String commandLine = waitForNewCommand();
             try {
-                Command command = commandFactory.getCommand(commandLine);
+                Command command = MycommandFactory.getCommand(commandLine);
+                if (command instanceof UndoCommand) {
+                    if (previousCommand == null) {
+                        printErrorToConsole("Error to undo");
+                    } else {
+                        command = previousCommand;
+                        documentLines.clear();
+                        documentLines.addAll(documentLines);
+                    }
+                } else {
+                    previousCommand = command;
+                    documentLines.clear();
+                    documentLines.addAll(documentLines);
+                }
+
                 command.execute(documentLines);
             } catch (BadCommandException e) {
                 printErrorToConsole("Bad command");
@@ -64,6 +82,7 @@ public class ConsoleEditor implements Editor {
         printLnToConsole("To add new line -> a \"your text\"");
         printLnToConsole("To update line  -> u [line number] \"your text\"");
         printLnToConsole("To delete line  -> d [line number]");
+        printLnToConsole("To undo line -> undo ");
     }
 
     private void printErrorToConsole(String message) {
